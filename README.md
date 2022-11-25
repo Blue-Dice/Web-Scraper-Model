@@ -2,32 +2,36 @@ Web scraper (Flask + Selenium + Celery)
 ==============================
 
 
-Getting Started
+# Getting Started
+
+
+Create Environment
 ------------
-
-
-# Create Environment
 ```
 python3 -m venv venv
 ```
 
-# Activate environment
+Activate environment
+------------
 ```
 On Linux: source venv/bin/activate
 On Windows: venv\Scripts\activate
 ```
 
-# Install dependencies
+Install dependencies
+------------
 ```
 pip install - r requirements.txt
 ```
 
-# Python run command
+Python run command
+------------
 ```
 python setup.py
 ```
 
-# Celery run command
+Celery run command
+------------
 ```
 Help command: python scraper/celery_config/worker.py --help
 Run command: python scraper/celery_config/worker.py start
