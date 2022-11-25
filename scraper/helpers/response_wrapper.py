@@ -2,7 +2,7 @@ from typing import Any
 import scraper.helpers.constants as constants
 
 def wrap_response(status: int, error: bool, message: Any, data: Any = None) -> object:
-    """Response Wrapper
+    """_summary_
 
     Args:
         data (Any): The response data to the api

@@ -24,6 +24,15 @@ Install dependencies
 pip install - r requirements.txt
 ```
 
+Create .env file
+------------
+```
+create a file named ".env"
+copy all the content from .env.txt into the .env file
+make changes according to your requirements
+delete .env.txt file
+```
+
 Python run command
 ------------
 ```
