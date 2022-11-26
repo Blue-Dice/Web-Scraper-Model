@@ -1,7 +1,7 @@
 from typing import Any
 import scraper.helpers.constants as constants
 
-def wrap_response(status: int, error: bool, message: Any, data: Any = None) -> object:
+def wrap_response(status: int, error: bool, message: Any = None, data: Any = None) -> object:
     """_summary_
 
     Args:
@@ -13,9 +13,9 @@ def wrap_response(status: int, error: bool, message: Any, data: Any = None) -> o
     Returns:
         object: The response wrapped in an object
     """
-    return {
-        constants.data: data,
-        constants.status: status,
-        constants.error: error,
-        constants.message: message
-    }
+    response = {}
+    if data: response[constants.data] = data
+    if message: response[constants.message] = message
+    response[constants.status] = status
+    response[constants.error] = error
+    return response

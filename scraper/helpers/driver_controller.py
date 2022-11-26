@@ -5,6 +5,7 @@ import zipfile
 from decouple import config
 from scraper.helpers.proxy import manifest_json, background_js
 from scraper.helpers.spoofer import Spoofer, overwrite_window
+from scraper.helpers import constants as constants
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium_stealth import stealth
@@ -48,6 +49,22 @@ class MultiDriverController():
         stores the driver and it's address in a dictionary
         """
         self._driver_dict[address] = driver
+    def delete_store(self, address: ChromeOptions) -> bool:
+        """_summary_
+
+        Args:
+            address (ChromeOptions): driver's debugger address
+
+        Returns:
+            bool: return True or False depending on if the address was in the store or not
+        """
+        if address in self._driver_dict.keys():
+            self._driver_dict[address].quit()
+            self._driver_dict[address] = None
+            return False
+        else:
+            return True
+        
 
 driver_storage = MultiDriverController()
         
@@ -63,8 +80,6 @@ class DriverController():
         """
         self._driver = None
         self._driver_address = None
-        self._browser_options = webdriver.ChromeOptions()
-        self._browser_options.add_argument('--start-maximized')
     
     def __dict__(self) -> tuple[WebDriver, str]:
         """_summary_
@@ -73,6 +88,18 @@ class DriverController():
             tuple[WebDriver, str]: contains driver and it's driver address
         """
         return self._driver, self._driver_address
+    
+    def __call__(self, security: str = None) -> None:
+        """_summary_
+
+        Args:
+            security (str, optional): sets browser options depending on the security. Defaults to None.
+        """
+        if security == 'undetected':
+            self._browser_options = uc.ChromeOptions()
+        else:
+            self._browser_options = webdriver.ChromeOptions()
+        self._browser_options.add_argument('--start-maximized')
     
     def initialize_driver(self, multi_driver: bool = False, security: str = None) -> WebDriver:
         """_summary_
@@ -103,7 +130,7 @@ class DriverController():
                 self._driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()),options=self._browser_options)
             self._driver_address = self.get_driver_address()
             return self._driver
-
+        
     def get_driver_address(self, driver: WebDriver = None) -> str:
         """_summary_
 
@@ -121,19 +148,39 @@ class DriverController():
                 return self._driver.desired_capabilities['goog:chromeOptions']['debuggerAddress']
             else:
                 return driver.desired_capabilities['goog:chromeOptions']['debuggerAddress']
-        except Exception as driver_exception:
-            raise LookupError(driver_exception)
+        except Exception:
+            print("No driver instance found in self._driver. Please provide the driver in the parameter")
         
-    def dispose_driver(self, driver: WebDriver = None) -> None:
+    def dispose_driver(self, driver_info: WebDriver|str = None) -> None:
         """_summary_
-        
-        Terminate driver
+
+        Args:
+            driver_info (WebDriver | str, optional)
+                : (`driver` or `driver_address`)For closing multi driver instance. Defaults to None. Defaults to None.
         """
-        if driver is None:
-            self._driver.quit()
-        else:
-            driver.quit()
-        
+        try:
+            if driver_info is None:
+                self._driver.quit()
+            else:
+                if type(driver_info) == WebDriver:
+                    driver_info = self.get_driver_address(driver_info)
+                    if driver_storage.delete_store(driver_info):
+                        self.delete_driver_from_root(driver_info)
+                elif type(driver_info) == str:
+                    if driver_storage.delete_store(driver_info):
+                        self.delete_driver_from_root(driver_info)
+        except Exception:
+            print("No driver instance found in self._driver. Please provide the driver in the parameter")
+    
+    def delete_driver_from_root(self, driver_address: str) -> None:
+        """_summary_
+
+        Args:
+            driver_address (str): driver address of the driver to be terminated from root
+        """
+        # Write and API Call here to the root to terminate the driver
+        pass
+    
     def connect_to_driver_address(self, driver_address: str) -> None:
         """_summary_
 
@@ -331,9 +378,7 @@ class DriverController():
         Returns:
             WebDriver: driver instance
         """
-        if security == 'undetected':
-            self._browser_options = uc.ChromeOptions()
-            self._browser_options.add_argument('--start-maximized')
+        self.__call__(security)
         self.call_spoofer(proxy, security)
         self.proxy_spoof(proxy, silent)
         if silent: self.enable_headless_driver()
