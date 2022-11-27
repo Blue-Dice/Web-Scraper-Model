@@ -1,5 +1,5 @@
 from typing import Any
-import scraper.helpers.constants as constants
+import helpers.constants as constants
 
 def wrap_response(status: int, error: bool, message: Any = None, data: Any = None) -> object:
     """_summary_

@@ -3,10 +3,10 @@ import time
 import logging
 from flask_wtf.csrf import CSRFProtect
 from decouple import config
-from scraper.helpers.response_wrapper import wrap_response
-from scraper.helpers.driver_controller import DriverController
+from helpers.response_wrapper import wrap_response
+from driver_config.driver_controller import DriverController
 from selenium.webdriver.common.by import By
-from scraper.celery_config.tasks import add
+from celery_config.tasks import add
 
 app = Flask(__name__)
 app.secret_key = config('SECRET_KEY')

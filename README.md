@@ -52,12 +52,17 @@ Project Organization
 ------------
 
     ├── README.md             <- The top-level README for developers using this project.
+    │
     ├── scraper
-    │   ├── celery_config     <- Celery configuration
-    │   ├── helpers           <- Helper functions for the project
     │   ├── static            <- Static file, contains css and assets
     │   ├── templates         <- Template file
     │   └── main.py           <- The original, immutable data dump
+    │
+    ├── celery_config         <- Celery configuration
+    │
+    ├── selenium_controler    <- Selinium driver manager
+    │
+    ├── helpers               <- Helper functions for the project
     │
     ├── setup.py              <- Main run file
     │

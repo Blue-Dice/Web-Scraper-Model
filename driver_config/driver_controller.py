@@ -3,9 +3,9 @@ from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 import zipfile
 from decouple import config
-from scraper.helpers.proxy import manifest_json, background_js
-from scraper.helpers.spoofer import Spoofer, overwrite_window
-from scraper.helpers import constants as constants
+from driver_config.proxy import manifest_json, background_js
+from driver_config.spoofer import Spoofer, overwrite_window
+import helpers.constants as constants
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium_stealth import stealth

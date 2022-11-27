@@ -1,5 +1,5 @@
 from fp.fp import FreeProxy
-from scraper.helpers.user_agent_controller import UserAgent
+from driver_config.user_agent_controller import UserAgent
 
 class Spoofer(object):
 
