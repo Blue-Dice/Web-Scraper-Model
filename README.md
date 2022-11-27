@@ -42,10 +42,10 @@ python setup.py
 Celery run command
 ------------
 ```
-Help command: python scraper/celery_config/worker.py --help
-Run command: python scraper/celery_config/worker.py start
-Purge command: python scraper/celery_config/worker.py purge
-Force purge command: python scraper/celery_config/worker.py purge -f
+Help command: python worker.py --help
+Run command: python worker.py start
+Purge command: python worker.py purge
+Force purge command: python worker.py purge -f
 ```
 
 Project Organization
@@ -59,7 +59,9 @@ Project Organization
     │   ├── templates         <- Template file
     │   └── main.py           <- The original, immutable data dump
     │
-    ├── setup.py              <- main run file
+    ├── setup.py              <- Main run file
+    │
+    ├── worker.py             <- Melery worker run file
     │
     ├── LICENSE               <- License information
     │

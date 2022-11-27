@@ -16,6 +16,8 @@ class CeleryWorker():
             broker_uri (str): url of the message broker
         """
         self._broker_uri = broker_uri
+        self._task_routes = {}
+        self._task_modules = []
         self.app = Celery(
             'Scraper',
             broker = self._broker_uri,
@@ -74,13 +76,19 @@ class CeleryWorker():
         except: pass
         if len(args) == 3:
             if args[1] == 'purge' and args[2] == 'f':
-                self.app.start(self.force_purge_args)
+                if len(self._task_routes) != 0:
+                    self.app.start(self.force_purge_args)
+                else:
+                    print(self.worker_help)
         elif len(args) == 2:
-            if args[1] == 'start':
-                self.app.worker_main(self.start_args)
-            elif args[1] == 'purge':
-                self.app.start(self.purge_args)
-            elif args[1] == '--help':
+            if len(self._task_routes) != 0:
+                if args[1] == 'start':
+                    self.app.worker_main(self.start_args)
+                elif args[1] == 'purge':
+                    self.app.start(self.purge_args)
+                elif args[1] == '--help':
+                    print(self.worker_help)
+            else:
                 print(self.worker_help)
         else:
             print(self.worker_error)
