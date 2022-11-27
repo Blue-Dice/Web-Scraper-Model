@@ -1,5 +1,5 @@
-from worker import celery_worker
+from worker import worker
 
-@celery_worker.task(name='task_name')
-def task():
-    return "response"
+@worker.app.task(name='task_1')
+def add(a,b):
+    print(f"=========================> {a+b}")

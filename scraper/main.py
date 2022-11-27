@@ -6,6 +6,7 @@ from decouple import config
 from scraper.helpers.response_wrapper import wrap_response
 from scraper.helpers.driver_controller import DriverController
 from selenium.webdriver.common.by import By
+from scraper.celery_config.tasks import add
 
 app = Flask(__name__)
 app.secret_key = config('SECRET_KEY')
@@ -21,6 +22,13 @@ driver_instance = DriverController()
 @app.route('/')
 def index():
     return wrap_response(200, False, f'Python scraper running at {request.remote_addr}')
+
+@app.route('/celery')
+def celery_demo():
+    task_id = str(time.time_ns)
+    args = [50,5]
+    task = add.apply_async(args,task_id=task_id)
+    return wrap_response(200, False, f'Celery task created',{'task_id':task.task_id})
 
 @app.route('/driver/ip', methods=['GET', 'POST'])
 def driver_ip():
