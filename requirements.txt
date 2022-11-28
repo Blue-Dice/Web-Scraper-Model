@@ -28,6 +28,7 @@ outcome==1.2.0
 packaging==21.3
 prompt-toolkit==3.0.33
 pycparser==2.21
+PyMySQL==1.0.2
 pyparsing==3.0.9
 PySocks==1.7.1
 python-decouple==3.6
