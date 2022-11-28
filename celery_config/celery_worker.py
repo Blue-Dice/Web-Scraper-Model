@@ -60,28 +60,26 @@ class CeleryWorker():
         [1] start : to start the celery worker
         [2] purge : to purge all the tasks in the celery queues
         [3] purge -f : to purge all the tasks in the celery queues while skipping the prompt
-        """.format(tasks_and_queues=tasks_and_queues,queues=self._queues)
+        """.format(tasks_and_queues=tasks_and_queues)
     
     def define_worker_arguments(self) -> None:
         """_summary_
         
         define worker arguments for the celery worker
         """
-        self.start_args = ['worker','--pool=threads','-Q',self._queues,'--loglevel=INFO']
-        self.purge_args = ['purge','-Q',self._queues]
-        self.force_purge_args = ['purge','-Q',self._queues,'-f']
+        try:
+            self.start_args = ['worker','--pool=threads','-Q',self._queues,'--loglevel=INFO']
+            self.purge_args = ['purge','-Q',self._queues]
+            self.force_purge_args = ['purge','-Q',self._queues,'-f']
+        except Exception:
+            print("Error initializing celery run arguments")
     
     def __call__(self, args):
-        try: self.define_worker_arguments()
-        except: pass
-        if len(args) == 3:
-            if args[1] == 'purge' and args[2] == 'f':
-                if len(self._task_routes) != 0:
-                    self.app.start(self.force_purge_args)
-                else:
-                    print(self.worker_help)
-        elif len(args) == 2:
-            if len(self._task_routes) != 0:
+        self.define_worker_arguments()
+        try:
+            if len(args) == 3 and args[1] == 'purge' and args[2] == 'f':
+                self.app.start(self.force_purge_args)
+            elif len(args) == 2:
                 if args[1] == 'start':
                     self.app.worker_main(self.start_args)
                 elif args[1] == 'purge':
@@ -89,6 +87,6 @@ class CeleryWorker():
                 elif args[1] == '--help':
                     print(self.worker_help)
             else:
-                print(self.worker_help)
-        else:
+                print(self.worker_error)
+        except Exception:
             print(self.worker_error)

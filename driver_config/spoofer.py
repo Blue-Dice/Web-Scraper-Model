@@ -3,11 +3,11 @@ from driver_config.user_agent_controller import UserAgent
 
 class Spoofer(object):
 
-    def __init__(self, country_id: list = ['IN'], rand: bool = True, anonym: bool = False):
+    def __init__(self, country_id: list = ('IN'), rand: bool = True, anonym: bool = False):
         self.country_id = country_id
         self.rand = rand
         self.anonym = anonym
-        self.userAgent, self.ip = self.get()
+        self.user_agent, self.ip = self.get()
 
     def get(self) -> tuple[str,str]:
         """_summary_

@@ -217,7 +217,7 @@ class DriverController():
                 : originalQuery(parameters)
         };
         """
-        # covered in `overwrite_window`
+        # window overwrite
         # overwrite_chrome = "window.chrome = {runtime: {},};"
         # overwrite_plugins = "Object.defineProperty(navigator, 'plugins', {get: () => [1, 2, 3, 4, 5]});"
         # overwrite_languages = "Object.defineProperty(navigator, 'languages', {get: () => ['en-US', 'en']});"
