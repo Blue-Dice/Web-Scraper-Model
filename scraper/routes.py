@@ -8,7 +8,7 @@ from celery_config.tasks import add
 
 driver_instance = DriverController()
 
-app.route('/')
+@app.route('/')
 def index():
     return wrap_response(200, False, f'Python scraper running at {request.remote_addr}')
 
