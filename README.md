@@ -66,7 +66,7 @@ Project Organization
     │
     ├── setup.py              <- Main run file
     │
-    ├── worker.py             <- Melery worker run file
+    ├── worker.py             <- Celery worker run file
     │
     ├── LICENSE               <- License information
     │

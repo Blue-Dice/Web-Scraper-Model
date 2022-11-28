@@ -235,7 +235,7 @@ class DriverController():
         """
         stealth(
             driver,
-            user_agent=self.helperSpoofer.userAgent,
+            user_agent=self.helperSpoofer.user_agent,
             languages=["en-US", "en"],
             vendor="Google Inc.",
             platform="Win32",
@@ -337,7 +337,7 @@ class DriverController():
         self._browser_options.add_argument('--disable-software-rasterizer')
         self._browser_options.add_argument('--disable-blink-features=AutomationControlled')
         # included in selenium stealth
-        # self._browser_options.add_argument('user-agent={}'.format(self.helperSpoofer.userAgent))
+        # self._browser_options.add_argument('user-agent={}'.format(self.helperSpoofer.user_agent))
         if add_experimental_features:
             self.remove_automation_experimental_options()
         

@@ -1,25 +1,14 @@
-from flask import Flask, request
+from flask_config import app
 import time
-import logging
-from flask_wtf.csrf import CSRFProtect
-from decouple import config
+from flask import request
 from helpers.response_wrapper import wrap_response
 from driver_config.driver_controller import DriverController
 from selenium.webdriver.common.by import By
 from celery_config.tasks import add
 
-app = Flask(__name__)
-app.secret_key = config('SECRET_KEY')
-app.config['WTF_CSRF_ENABLED'] = (config('CSRF_ENABLED') == 'True')
-csrf = CSRFProtect(app)
-
-# Create log file
-if config('CREATE_RECORD_LOG') == 'True':
-    logging.basicConfig(filename='record.log', level=logging.DEBUG)
-
 driver_instance = DriverController()
 
-@app.route('/')
+app.route('/')
 def index():
     return wrap_response(200, False, f'Python scraper running at {request.remote_addr}')
 

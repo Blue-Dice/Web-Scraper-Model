@@ -1,4 +1,4 @@
-from scraper.main import app
+from scraper.flask_config import app
 from decouple import config
 
 port = config('PORT')
